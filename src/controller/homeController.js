@@ -1,5 +1,5 @@
 import db from "../models";
-import createNewUser from "../services/CRUDServices";
+import createNewUser, { getAllUser } from "../services/CRUDServices";
 
 let getHomePage = async (req, res) => {
   try {
@@ -18,8 +18,14 @@ let getCRUD = (req, res) => {
 
 let postCRUD = async (req, res) => {
   const data = await createNewUser(req.body);
-  console.log(data);
   return res.send("post CRUD from sever");
 };
 
-export { getHomePage, getCRUD, postCRUD };
+let displayGetCRUD = async (req, res) => {
+  const data = await getAllUser();
+  return res.render("displayCRUD.ejs", {
+    dataTable: data,
+  });
+};
+
+export { getHomePage, getCRUD, postCRUD, displayGetCRUD };
