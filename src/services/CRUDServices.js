@@ -49,4 +49,45 @@ const getAllUser = () => {
   });
 };
 
-export { createNewUser, getAllUser };
+const getUserInforById = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const usser = await db.User.findOne({
+        where: { id },
+        raw: true,
+      });
+      if (usser) {
+        resolve(usser);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const updateUserData = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await db.User.findOne({
+        where: { id: data.id },
+      });
+      //   console.log(user);
+      if (user) {
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
+
+        await user.save();
+        let allUser = await db.User.findAll();
+        resolve(allUser);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export { createNewUser, getAllUser, getUserInforById, updateUserData };

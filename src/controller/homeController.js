@@ -1,5 +1,9 @@
 import db from "../models";
-import createNewUser, { getAllUser } from "../services/CRUDServices";
+import createNewUser, {
+  getAllUser,
+  getUserInforById,
+  updateUserData,
+} from "../services/CRUDServices";
 
 let getHomePage = async (req, res) => {
   try {
@@ -28,4 +32,24 @@ let displayGetCRUD = async (req, res) => {
   });
 };
 
-export { getHomePage, getCRUD, postCRUD, displayGetCRUD };
+let getEditCRUD = async (req, res) => {
+  const id = req.query.id;
+  if (id) {
+    const userData = await getUserInforById(id);
+    return res.render("editCRUD.ejs", {
+      user: userData,
+    });
+  } else {
+    return res.send("User Not Found!");
+  }
+};
+
+let putCRUD = async (req, res) => {
+  const data = req.body;
+  const allUser = await updateUserData(data);
+  return res.render("displayCRUD.ejs", {
+    dataTable: allUser,
+  });
+};
+
+export { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putCRUD };
