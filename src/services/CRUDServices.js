@@ -73,7 +73,6 @@ const updateUserData = (data) => {
       const user = await db.User.findOne({
         where: { id: data.id },
       });
-      //   console.log(user);
       if (user) {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
@@ -90,4 +89,28 @@ const updateUserData = (data) => {
     }
   });
 };
-export { createNewUser, getAllUser, getUserInforById, updateUserData };
+
+const deleteUserByID = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await db.User.findOne({
+        where: { id },
+      });
+
+      if (user) {
+        await user.destroy();
+      }
+
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export {
+  createNewUser,
+  getAllUser,
+  getUserInforById,
+  updateUserData,
+  deleteUserByID,
+};

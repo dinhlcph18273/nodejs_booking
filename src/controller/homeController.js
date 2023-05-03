@@ -1,5 +1,7 @@
 import db from "../models";
-import createNewUser, {
+import {
+  createNewUser,
+  deleteUserByID,
   getAllUser,
   getUserInforById,
   updateUserData,
@@ -52,4 +54,23 @@ let putCRUD = async (req, res) => {
   });
 };
 
-export { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putCRUD };
+let deleteCRUD = async (req, res) => {
+  let id = req.query.id;
+
+  if (id) {
+    await deleteUserByID(id);
+    return res.send("delete ok!");
+  } else {
+    return res.send("User Not Found!");
+  }
+};
+
+export {
+  getHomePage,
+  getCRUD,
+  postCRUD,
+  displayGetCRUD,
+  getEditCRUD,
+  putCRUD,
+  deleteCRUD,
+};
